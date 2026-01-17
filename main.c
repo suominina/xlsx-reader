@@ -2,7 +2,7 @@
 
 #include "sb.h"
 #include "xlsxwriter.h"
-#include "xlsx_drone/src/xlsx_drone.h"
+#include "lib/src/xlsx_drone.h"
 
 int get_colname_int(const char *s) {
     int col = 0;

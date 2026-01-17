@@ -1,0 +1,15 @@
+LIBRARIES VERSION USED
+======================
+
+PRODUCTION
+----------
+
+- ZIP // https://github.com/kuba--/zip | using version 0.3.2
+- SXMLC // http://sxmlc.sourceforge.net/ | using version 4.5.4
+
+TEST
+----
+
+- UNITY // https://github.com/ThrowTheSwitch/Unity & http://www.throwtheswitch.org/unity/ |
+ using version 2.5.1+ (386c540 2020/10/12)
+
