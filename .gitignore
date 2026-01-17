@@ -2,7 +2,6 @@
 libxlsxwriter
 main
 sb.h
-filename.xlsx
 test.c
 writer.c
 memo.txt
