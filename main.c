@@ -1,9 +1,11 @@
 #include <stdio.h>
 
 #include "sb.h"
-#include "xlsxwriter.h"
 #include "lib/src/xlsx_drone.h"
 
+/* 
+ * convert column name to integer 
+ * like "A" to a */
 int get_colname_int(const char *s) {
     int col = 0;
     for (int i = 0; s[i] != '\0'; i++) {
@@ -12,7 +14,8 @@ int get_colname_int(const char *s) {
     return col;
 }
 
-
+/* convert column number to string
+ * like 1 to "A" */
 void int_to_string(int col, char *buf) {
     char tmp[10];
     int i = 0;
@@ -28,6 +31,15 @@ void int_to_string(int col, char *buf) {
         buf[j] = tmp[i - j - 1];
     }
     buf[i] = '\0';
+}
+
+/* 
+ * handle the error that is returned by xlsx_drone library functions
+ * 
+ */
+int xlsx_errcheck(int retval)
+{
+
 }
 
 int main(int argc, char **argv)
@@ -69,11 +81,10 @@ int main(int argc, char **argv)
                 break;
             }
 
+            printf("--+-------------------+\n");
             printf("  | A | B | C | D | E |\n");
-            printf("-----------------------\n");
+            printf("--+-------------------+\n");
             for (int row = 1 ;row <= sheet->last_row; row++) {
-                int row_have_data = 0;
-
                 printf("%d ", row);
 
                 for (int col = 1; col <= last_column_int; col++) {
@@ -87,18 +98,16 @@ int main(int argc, char **argv)
 
                     switch(cell_data_holder.value_type) {
                     case XLSX_POINTER_TO_CHAR:
-                        row_have_data = 1;
-                        printf("|%2s ", cell_data_holder.value.pointer_to_char_value);
+                        printf("|%-3s", cell_data_holder.value.pointer_to_char_value);
                         break;
                     case XLSX_INT:
-                        row_have_data = 1;
-                        printf("|%2d ", cell_data_holder.value.int_value);
+                        printf("|%3d", cell_data_holder.value.int_value);
                         break;
                     case XLSX_LONG_LONG:
-                        row_have_data = 1;
                         break;
                     case XLSX_DOUBLE:
-                        row_have_data = 1;
+                        break;
+                    case XLSX_NULL:
                         break;
                     default:
                         break;

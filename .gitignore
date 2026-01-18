@@ -7,3 +7,4 @@ writer.c
 memo.txt
 test
 writer
+*.bk
