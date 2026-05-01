@@ -5,7 +5,7 @@
 
 /* 
  * convert column name to integer 
- * like "A" to a */
+ * like "A" to 1 */
 int get_colname_int(const char *s) {
     int col = 0;
     for (int i = 0; s[i] != '\0'; i++) {
@@ -34,7 +34,7 @@ void int_to_string(int col, char *buf) {
 }
 
 /* 
- * handle the error that is returned by xlsx_drone library functions
+ * handle error that is returned by xlsx_drone library functions
  * 
  */
 int xlsx_errcheck(int retval)
@@ -42,10 +42,12 @@ int xlsx_errcheck(int retval)
 
 }
 
+/* TODO
+ * make a singular-linked list of string builder each node represents a row  */
 int main(int argc, char **argv)
 {
-    /* error if no arguments have been passed */
-    if (argc < 1) {
+    /* show usage if no arguments have been passed */
+    if (argc < 2) {
         fprintf(stderr, "Usage: ./xlsx_reader <filename> ...");
         exit(EXIT_FAILURE);
     }
@@ -60,12 +62,14 @@ int main(int argc, char **argv)
     for (; book_idx < argc; book_idx++) {
         xlsx_open(books[book_idx], &wb);
 
+        printf("--+-------------------+\n");
+
         /* read sheets one by one */
         for (sheet_idx = 1; sheet_idx <= wb.n_sheets ; sheet_idx++){
             sheet = xlsx_load_sheet(&wb, sheet_idx, NULL);
             if (sheet == NULL) {
                 if (xlsx_errno == XLSX_LOAD_SHEET_ERRNO_NON_EXISTENT) {
-                    /* successfully read all the sheets the book have */
+                    /* successfully read all the sheets a book have */
                     break;
                 } else {
                     fprintf(stderr, "ERROR: xlsx_load_sheet() failed\n");
@@ -81,9 +85,10 @@ int main(int argc, char **argv)
                 break;
             }
 
-            printf("--+-------------------+\n");
-            printf("  | A | B | C | D | E |\n");
-            printf("--+-------------------+\n");
+            // printf("--+-------------------+\n");
+            // printf("  | A | B | C | D | E |\n");
+            // printf("--+-------------------+\n");
+            // TODO: get the biggest digits of each column 
             for (int row = 1 ;row <= sheet->last_row; row++) {
                 printf("%d ", row);
 
@@ -116,6 +121,7 @@ int main(int argc, char **argv)
                 printf("|\n");
             }
         }
+        putchar('\n');
     }
 
     
