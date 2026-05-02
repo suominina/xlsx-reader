@@ -124,9 +124,6 @@ int main(int argc, char **argv)
         putchar('\n');
     }
 
-    
-
-
     xlsx_close(&wb);
     return 0;
 }
